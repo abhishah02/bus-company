@@ -47,21 +47,21 @@ async function bookSeat(req, res) {
 
       const addBook = parseInt(checkDate.booked_seat) + 1;
 
-      const availableSeat = checkDate.available;
+      // const availableSeat = checkDate.available;
       const unavailableSeat = checkDate.unavailable;
 
-      const availableSeatIndex = availableSeat.indexOf(seatNumber);
-      if (availableSeatIndex > -1) {
-        // only splice array when item is found
-        availableSeat.splice(availableSeatIndex, 1); // 2nd parameter means remove one item only
-      }
+      // const availableSeatIndex = availableSeat.indexOf(seatNumber);
+      // if (availableSeatIndex > -1) {
+      //   // only splice array when item is found
+      //   availableSeat.splice(availableSeatIndex, 1); // 2nd parameter means remove one item only
+      // }
       unavailableSeat.push(seatNumber);
 
       await BusSeat.findOneAndUpdate(
         { bus_id: busId },
         {
           booked_seat: addBook,
-          available: availableSeat,
+          // available: availableSeat,
           unavailable: unavailableSeat,
         }
       );
