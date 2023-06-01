@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const connectDb = require("./src/connection/db");
 require("dotenv").config();
 
@@ -12,6 +13,7 @@ app.use(
     origin: "*",
   })
 );
+app.use(cookieParser());
 app.use(express.json());
 
 //Connetion of Database

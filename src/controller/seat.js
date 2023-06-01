@@ -3,12 +3,12 @@ const moment = require("moment");
 const Seat = require("../modal/seat");
 const BusSeat = require("../modal/busSeat");
 
-
 //This API will book your particular seat-number
 async function bookSeat(req, res) {
   try {
-    const { busId, name, email, seatNumber, dateOfBooking } = req.body;
+    const { name, email, seatNumber, dateOfBooking } = req.body;
 
+    const busId = req.cookies.busId;
     const formateDate = moment(dateOfBooking).format("YYYY-MM-DD");
 
     const checkDate = await BusSeat.findOne({ date: formateDate });
@@ -16,7 +16,7 @@ async function bookSeat(req, res) {
     const checkSeatNumber = await Seat.findOne({
       dateOfBooking: formateDate,
       seat_number: seatNumber,
-      isDelete:0
+      isDelete: 0,
     });
     if (checkDate === null) {
       return res.json({
@@ -203,11 +203,12 @@ async function viewSeatDetails(req, res) {
   }
 }
 
-//This API will edit your seat details 
+//This API will edit your seat details
 async function editSeatDetails(req, res) {
   try {
-    const { busId, seatNumber, name, email } = req.body;
+    const { seatNumber, name, email } = req.body;
 
+    const busId = req.cookies.busId;
     await Seat.findOneAndUpdate(
       { bus_id: busId, seat_number: seatNumber },
       { name: name, email: email }
@@ -222,11 +223,12 @@ async function editSeatDetails(req, res) {
   }
 }
 
-//This API will delete your seat details 
+//This API will delete your seat details
 async function deleteSeatDetails(req, res) {
   try {
-    const { busId, seatNumber } = req.body;
+    const { seatNumber } = req.body;
 
+    const busId = req.cookies.busId;
     await Seat.findOneAndUpdate(
       { bus_id: busId, seat_number: seatNumber },
       { isDelete: 1 }

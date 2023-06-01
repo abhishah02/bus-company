@@ -56,7 +56,7 @@ async function searchBus(req, res) {
     // const { date } = req.body;
 
     const viewBus = await BusSeat.findOne(
-      { date: "2023-06-06" },
+      { date: "2023-06-04" },
       {
         bus_id: 1,
         date: 1,
@@ -68,6 +68,10 @@ async function searchBus(req, res) {
       }
     );
     if (viewBus !== null) {
+
+      console.log(viewBus.bus_id);
+      res.cookie("busId", viewBus.bus_id);
+
       return res.json({
         st: true,
         data: viewBus,
