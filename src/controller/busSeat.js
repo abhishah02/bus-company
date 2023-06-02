@@ -69,7 +69,7 @@ async function searchBus(req, res) {
     );
     if (viewBus !== null) {
 
-      console.log(viewBus.bus_id);
+      // console.log(viewBus.bus_id);
       res.cookie("busId", viewBus.bus_id);
 
       return res.json({
