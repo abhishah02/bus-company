@@ -53,10 +53,10 @@ async function createBusSeat(req, res) {
 //You can search bus by date
 async function searchBus(req, res) {
   try {
-    // const { date } = req.body;
+    const { date } = req.body;
 
     const viewBus = await BusSeat.findOne(
-      { date: "2023-06-07" },
+      { date: date },
       {
         bus_id: 1,
         date: 1,
