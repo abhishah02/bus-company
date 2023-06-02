@@ -211,9 +211,9 @@ async function viewSeatDetails(req, res) {
 //This API will edit your seat details
 async function editSeatDetails(req, res) {
   try {
-    const { seatNumber, name, email } = req.body;
+    const { busId, seatNumber, name, email } = req.body;
 
-    const busId = req.cookies.busId;
+    // const busId = req.cookies.busId;
     await Seat.findOneAndUpdate(
       { bus_id: busId, seat_number: seatNumber },
       { name: name, email: email }
@@ -231,9 +231,9 @@ async function editSeatDetails(req, res) {
 //This API will delete your seat details
 async function deleteSeatDetails(req, res) {
   try {
-    const { seatNumber } = req.body;
+    const { busId, seatNumber } = req.body;
 
-    const busId = req.cookies.busId;
+    // const busId = req.cookies.busId;
     await Seat.findOneAndUpdate(
       { bus_id: busId, seat_number: seatNumber },
       { isDelete: 1 }

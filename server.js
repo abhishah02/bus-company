@@ -6,7 +6,6 @@ require("dotenv").config();
 
 const PORT = process.env.PORT;
 
-
 const app = express();
 app.use(
   cors({
@@ -16,9 +15,6 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-//Connetion of Database
-connectDb();
-
 //Seat Router
 const seatRoute = require("./src/router/seat");
 app.use("/seat", seatRoute);
@@ -27,9 +23,15 @@ app.use("/seat", seatRoute);
 const busSeatRoute = require("./src/router/busSeat");
 app.use("/busSeat", busSeatRoute);
 
+//You have to add PORT in the .env file
+const server = () => {
+  //Connetion of Database
+  connectDb();
 
-//You have to add PORT in the .env file 
-//The application will listen to particular
-app.listen(PORT, () => {
-  console.log(`Server is ruuning on port ${PORT}`);
-});
+  //The application will listen to particular
+  app.listen(PORT, () => {
+    console.log(`Server is ruuning on port ${PORT}`);
+  });
+};
+
+server();
