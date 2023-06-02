@@ -6,14 +6,19 @@ const BusSeat = require("../modal/busSeat");
 //This API will book your particular seat-number
 async function bookSeat(req, res) {
   try {
-    const { name, email, seatNumber, dateOfBooking } = req.body;
+    const { busId, name, email, seatNumber, dateOfBooking } = req.body;
 
-    const busId = req.cookies.busId;
+    // var busId = req.body.busId;
+    // if (busId === "") {
+    //   busId = req.cookies.busId;
+    // }
     const formateDate = moment(dateOfBooking).format("YYYY-MM-DD");
 
     const checkDate = await BusSeat.findOne({ date: formateDate });
 
+    // console.log(checkDate);
     const checkSeatNumber = await Seat.findOne({
+      bus_id: busId,
       dateOfBooking: formateDate,
       seat_number: seatNumber,
       isDelete: 0,
