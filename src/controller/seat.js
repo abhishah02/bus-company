@@ -154,7 +154,7 @@ async function viewStatus(req, res) {
     //   );
     //   return res.json({ st: true, data: findTicketStatus });
     // } else {
-    const findTicketStatus = await Seat.findOne(
+    const findTicketStatus = await Seat.find(
       { bus_id: busId, isDelete: 0 },
       {
         bus_id: 1,
