@@ -138,46 +138,46 @@ async function viewCloseOpenSeat(req, res) {
 //This API will find your ticket status
 async function viewStatus(req, res) {
   try {
-    const { busId, seatNumber } = req.body;
+    const { busId } = req.body;
 
-    if (busId === "" || seatNumber === null) {
-      const findTicketStatus = await Seat.find(
-        { isDelete: 0 },
-        {
-          bus_id: 1,
-          name: 1,
-          email: 1,
-          seat_number: 1,
-          dateOfBooking: 1,
-          status: 1,
-        }
-      );
-      return res.json({ st: true, data: findTicketStatus });
-    } else {
-      const findTicketStatus = await Seat.findOne(
-        { bus_id: busId, seat_number: seatNumber, isDelete: 0 },
-        {
-          bus_id: 1,
-          name: 1,
-          email: 1,
-          seat_number: 1,
-          dateOfBooking: 1,
-          status: 1,
-        }
-      );
-      if (findTicketStatus !== null) {
-        return res.json({ st: true, data: findTicketStatus });
-      } else {
-        return res.json({
-          st: true,
-          data: {
-            status: "open",
-            bus_id: busId,
-            seat_number: seatNumber,
-          },
-        });
+    // if (busId === "" || seatNumber === null) {
+    //   const findTicketStatus = await Seat.find(
+    //     { isDelete: 0 },
+    //     {
+    //       bus_id: 1,
+    //       name: 1,
+    //       email: 1,
+    //       seat_number: 1,
+    //       dateOfBooking: 1,
+    //       status: 1,
+    //     }
+    //   );
+    //   return res.json({ st: true, data: findTicketStatus });
+    // } else {
+    const findTicketStatus = await Seat.findOne(
+      { bus_id: busId, isDelete: 0 },
+      {
+        bus_id: 1,
+        name: 1,
+        email: 1,
+        seat_number: 1,
+        dateOfBooking: 1,
+        status: 1,
       }
-    }
+    );
+    // if (findTicketStatus !== null) {
+    return res.json({ st: true, data: findTicketStatus });
+    // } else {
+    //   return res.json({
+    //     st: true,
+    //     data: {
+    //       status: "open",
+    //       bus_id: busId,
+    //       seat_number: seatNumber,
+    //     },
+    //   });
+    // }
+    // }
   } catch (err) {
     return res.json({
       st: false,
