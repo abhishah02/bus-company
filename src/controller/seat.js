@@ -233,13 +233,35 @@ async function deleteSeatDetails(req, res) {
   try {
     const { busId, seatNumber } = req.body;
 
-    // const busId = req.cookies.busId;
+    const findSeat = await BusSeat.findOne(
+      { bus_id: busId },
+      { available: 1, unavailable: 1 }
+    );
+
+    const unavailableSeat = findSeat.unavailable;
+
+    const unavailableSeatIndex = unavailableSeat.indexOf(seatNumber);
+    if (unavailableSeatIndex > -1) {
+      unavailableSeat.splice(unavailableSeatIndex, 1);
+    }
+
+    await BusSeat.findOneAndUpdate(
+      { bus_id: busId },
+      {
+        unavailable: unavailableSeat,
+      }
+    );
+
     await Seat.findOneAndUpdate(
       { bus_id: busId, seat_number: seatNumber },
       { isDelete: 1 }
     );
 
-    return res.json({ st: true, msg: "This Ticket Deleted Successfully." });
+    return res.json({
+      st: true,
+      msg: "This Ticket Deleted Successfully.",
+      data: findSeat,
+    });
   } catch (err) {
     return res.json({
       st: false,
