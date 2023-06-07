@@ -7,8 +7,16 @@ async function createBusSeat(req, res) {
   try {
     const { startDate, endDate, totalSeat } = req.body;
 
-    var start = new Date(startDate);
+    const start = new Date(startDate);
+    const updateStart = new Date(startDate);
     var end = new Date(endDate);
+
+    if (end.getTime() > updateStart.setMonth(updateStart.getMonth() + 3)) {
+      return res.json({
+        st: false,
+        msg: "Date will Created Between 3 Months.",
+      });
+    }
 
     const result = [];
     while (start <= end) {
@@ -68,7 +76,6 @@ async function searchBus(req, res) {
       }
     );
     if (viewBus !== null) {
-
       // console.log(viewBus.bus_id);
       res.cookie("busId", viewBus.bus_id);
 
