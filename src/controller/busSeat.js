@@ -60,12 +60,22 @@ async function createBusSeat(req, res) {
 
 async function busList(req, res) {
   try {
+    const { page, per_page } = req.body;
+
     const total_bus = await BusSeat.countDocuments();
     const list = await BusSeat.find(
       {},
-      { bus_id: 1, date: 1, day: 1, total_seat: 1, booked_seat: 1 }
-    );
-    return res.json({ st: true, total_count: total_bus, busList: list });
+      { bus_id: 1, date: 1, day: 1, total_seat: 1, booked_seat: 1 },
+      { sort: "date" }
+    )
+      .limit(per_page * 1)
+      .skip((page - 1) * per_page)
+      .exec();
+    return res.json({
+      st: true,
+      total_page: Math.ceil(total_bus / per_page),
+      busList: list,
+    });
   } catch (err) {
     return res.json({
       st: false,
